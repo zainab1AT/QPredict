@@ -5,6 +5,7 @@ import Home from "./Pages/Home";
 import Legal from "./Pages/Legal";
 import NotFound from "./Pages/NotFound";
 import Appointment from "./Pages/Appointment";
+import ResultsPage from "./Components/ResultsDiabetes";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Router basename="/Health-Plus">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/results" element={<ResultsPage />} />
           <Route path="/legal" element={<Legal />} />
           <Route path="/appointment" element={<Appointment />} />
           <Route path="*" element={<NotFound />} />
