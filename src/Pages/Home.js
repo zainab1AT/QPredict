@@ -13,10 +13,9 @@ function Home() {
     <div className="home-section">
       <Navbar />
       <Hero />
-      <Info />
-      <About />
-      <BookAppointment />
       <Reviews />
+      <Info />
+      <About />   
       <Doctors />
       <Footer />
     </div>

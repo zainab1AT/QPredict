@@ -1,195 +1,261 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
-import "react-toastify/dist/ReactToastify.css";
-import '../Styles/Result.css';  
+import axios from "axios";
+import "../Styles/Result.css";
 
-function ResultsPage() {
-  const location = useLocation();
-  const { symptoms, region } = location.state || {};
-
+function Heart({ region, symptoms }) {
   const [age, setAge] = useState("");
   const [sex, setSex] = useState("");
   const [chestPain, setChestPain] = useState("");
   const [fastingBloodSugar, setFastingBloodSugar] = useState("");
   const [maxHeartRate, setMaxHeartRate] = useState("");
   const [exerciseAngina, setExerciseAngina] = useState("");
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ age, sex, chestPain, fastingBloodSugar, maxHeartRate, exerciseAngina });
+    setError(null);
+    setResult(null);
+
+    // Prepare the data for the API request
+    const inputData = {
+      age: parseInt(age, 10),
+      sex: sex === "male" ? 1 : 0,
+      cp: parseInt(chestPain, 10),
+      fbs: fastingBloodSugar === "yes" ? 1 : 0,
+      thalach: parseInt(maxHeartRate, 10),
+      exang: exerciseAngina === "yes" ? 1 : 0,
+    };
+
+    try {
+      console.log(inputData)
+      const response = await axios.post("http://localhost:5000/predict", inputData);
+      setResult(response.data);
+    } catch (err) {
+      setError(err.response?.data?.error || "An error occurred while predicting.");
+    }
   };
 
   return (
     <div className="results-section">
-      <h1>Symptom Analysis Results</h1>
-      <p>
-        <strong>Symptoms:</strong> {symptoms}
-      </p>
-      <p>
+    <h1>Heart Health Prediction</h1>
+    <p>
         <strong>Region:</strong> {region}
-      </p>
-      <h2>Next Steps</h2>
-      <p>Based on your symptoms, we need more information. Please answer the following questions:</p>
+    </p>
+    <p>
+        <strong>Symptoms:</strong> {symptoms}
+    </p>
 
-      <form onSubmit={handleSubmit}>
+    <h2>Provide Your Details</h2>
+    <form onSubmit={handleSubmit}>
         {/* Age */}
+        <label>What is your Age?</label>
+
         <div>
-          <label>Age:</label>
-          <input
-            type="number"
-            value={age}
-            onChange={(e) => setAge(e.target.value)}
-            placeholder="Enter your age"
-            required
-          />
+            <input
+                type="number"
+                value={age}
+                onChange={(e) => setAge(e.target.value)}
+                placeholder="Enter your age"
+                required
+            />
         </div>
 
         {/* Sex */}
-        <div>
-          <label>What is your biological sex? (male/female):</label>
-          <div>
+        <label>What is your biological sex?</label>
+
+        <div className="question">
             <label>
-              <input
-                type="radio"
-                value="male"
-                checked={sex === "male"}
-                onChange={() => setSex("male")}
-                required
-              />
-              Male
+                <input
+                    type="radio"
+                    value="male"
+                    checked={sex === "male"}
+                    onChange={() => setSex("male")}
+                    required
+                />
+                Male
             </label>
             <label>
-              <input
-                type="radio"
-                value="female"
-                checked={sex === "female"}
-                onChange={() => setSex("female")}
-                required
-              />
-              Female
+                <input
+                    type="radio"
+                    value="female"
+                    checked={sex === "female"}
+                    onChange={() => setSex("female")}
+                    required
+                />
+                Female
             </label>
-          </div>
         </div>
 
         {/* Chest Pain */}
-        <div>
-          <label>Have you experienced chest pain? If yes, how would you rate it on a scale of 0-3?</label>
-          <div>
+        <label>Rate chest pain on a scale</label>
+
+        <div className="question">
             <label>
-              <input
-                type="radio"
-                value="0"
-                checked={chestPain === "0"}
-                onChange={() => setChestPain("0")}
-                required
-              />
-              0: No chest pain
+                <input
+                    type="radio"
+                    value="0"
+                    checked={chestPain === "0"}
+                    onChange={() => setChestPain("0")}
+                    required
+                />
+                No chest pain
             </label>
             <label>
-              <input
-                type="radio"
-                value="1"
-                checked={chestPain === "1"}
-                onChange={() => setChestPain("1")}
-                required
-              />
-              1: Mild chest pain
+                <input
+                    type="radio"
+                    value="1"
+                    checked={chestPain === "1"}
+                    onChange={() => setChestPain("1")}
+                    required
+                />
+                Mild chest pain
             </label>
             <label>
-              <input
-                type="radio"
-                value="2"
-                checked={chestPain === "2"}
-                onChange={() => setChestPain("2")}
-                required
-              />
-              2: Moderate chest pain
+                <input
+                    type="radio"
+                    value="2"
+                    checked={chestPain === "2"}
+                    onChange={() => setChestPain("2")}
+                    required
+                />
+                Moderate chest pain
             </label>
             <label>
-              <input
-                type="radio"
-                value="3"
-                checked={chestPain === "3"}
-                onChange={() => setChestPain("3")}
-                required
-              />
-              3: Severe chest pain
+                <input
+                    type="radio"
+                    value="3"
+                    checked={chestPain === "3"}
+                    onChange={() => setChestPain("3")}
+                    required
+                />
+                Severe chest pain
             </label>
-          </div>
         </div>
 
         {/* Fasting Blood Sugar */}
-        <div>
-          <label>Is your fasting blood sugar greater than 120 mg/dL?</label>
-          <div>
+        <label>Is your fasting blood sugar greater than 120 mg/dL?</label>
+        <div className="question">
+           
             <label>
-              <input
-                type="radio"
-                value="yes"
-                checked={fastingBloodSugar === "yes"}
-                onChange={() => setFastingBloodSugar("yes")}
-                required
-              />
-              Yes
+                <input
+                    type="radio"
+                    value="yes"
+                    checked={fastingBloodSugar === "yes"}
+                    onChange={() => setFastingBloodSugar("yes")}
+                    required
+                />
+                Yes
             </label>
             <label>
-              <input
-                type="radio"
-                value="no"
-                checked={fastingBloodSugar === "no"}
-                onChange={() => setFastingBloodSugar("no")}
-                required
-              />
-              No
+                <input
+                    type="radio"
+                    value="no"
+                    checked={fastingBloodSugar === "no"}
+                    onChange={() => setFastingBloodSugar("no")}
+                    required
+                />
+                No
             </label>
-          </div>
         </div>
 
         {/* Maximum Heart Rate */}
         <div>
-          <label>What is your maximum heart rate achieved during physical activity?</label>
-          <input
-            type="number"
-            value={maxHeartRate}
-            onChange={(e) => setMaxHeartRate(e.target.value)}
-            placeholder="Enter your maximum heart rate"
-            required
-          />
+            <label>Maximum heart rate during physical activity:</label>
+            <input
+                type="number"
+                value={maxHeartRate}
+                onChange={(e) => setMaxHeartRate(e.target.value)}
+                placeholder="Enter your maximum heart rate"
+                required
+            />
         </div>
 
         {/* Exercise-induced Angina */}
-        <div>
-          <label>Have you experienced chest discomfort during exercise?</label>
-          <div>
+        <label>Experienced chest discomfort during exercise?</label>
+
+        <div className="question">
             <label>
-              <input
-                type="radio"
-                value="yes"
-                checked={exerciseAngina === "yes"}
-                onChange={() => setExerciseAngina("yes")}
-                required
-              />
-              Yes
+                <input
+                    type="radio"
+                    value="yes"
+                    checked={exerciseAngina === "yes"}
+                    onChange={() => setExerciseAngina("yes")}
+                    required
+                />
+                Yes
             </label>
             <label>
-              <input
-                type="radio"
-                value="no"
-                checked={exerciseAngina === "no"}
-                onChange={() => setExerciseAngina("no")}
-                required
-              />
-              No
+                <input
+                    type="radio"
+                    value="no"
+                    checked={exerciseAngina === "no"}
+                    onChange={() => setExerciseAngina("no")}
+                    required
+                />
+                No
             </label>
-          </div>
         </div>
 
         <button type="submit" className="form-submit-btn">
-          Submit Answers
+            Submit
         </button>
-      </form>
-    </div>
+    </form>
+
+     {/* Display Result */}
+{result && (
+  <div className="result">
+    <h3>Prediction Result:</h3>
+    <p>
+  <strong>Prediction:</strong>
+  <span className={result.prediction === 1 ? "high-risk" : "low-risk"}>
+    {result.prediction === 1 ? "High Risk" : "Low Risk"}
+  </span>
+</p>
+
+    <p>
+      <strong>Probability:</strong> {result.probability.map((p, idx) => (
+        <span key={idx} className={idx === 1 ? "high-risk" : "low-risk"}>{idx === 1 ? "High Risk" : "Low Risk"} : {p.toFixed(2)} </span>
+      ))}
+    </p>
+    
+    {/* Display Advice Based on Prediction */}
+    {result.prediction === 1 ? (
+      <div >
+        <p><strong>Advice:</strong> Based on your results, you are at high risk of heart disease. It is crucial to take immediate action to improve your heart health.</p>
+        
+        <h4>Steps to Take:</h4>
+        <ul>
+          <li><strong>Consult a healthcare provider:</strong> Schedule an appointment with your doctor for a comprehensive evaluation.</li>
+          <li><strong>Adopt a healthy diet:</strong> Focus on a heart-healthy diet rich in fruits, vegetables, whole grains, and lean proteins. Limit unhealthy fats and sodium.</li>
+          <li><strong>Exercise regularly:</strong> Aim for at least 30 minutes of moderate exercise most days of the week, such as walking, swimming, or cycling.</li>
+          <li><strong>Manage stress:</strong> Practice relaxation techniques such as yoga, meditation, or deep breathing to manage stress.</li>
+          <li><strong>Monitor cholesterol and blood pressure:</strong> Regularly check your cholesterol and blood pressure levels and follow your doctor's advice to manage them.</li>
+        </ul>
+      </div>
+    ) : (
+      <div>
+        <p><strong>Advice:</strong> Your risk of heart disease is low, but it's important to continue maintaining a healthy lifestyle to keep it that way.</p>
+        
+        <h4>Tips to Maintain Good Heart Health:</h4>
+        <ul>
+          <li><strong>Eat a balanced diet:</strong> Include plenty of fruits, vegetables, whole grains, and healthy fats in your meals.</li>
+          <li><strong>Stay active:</strong> Engage in regular physical activity to strengthen your heart and maintain a healthy weight.</li>
+          <li><strong>Limit alcohol consumption:</strong> Drink alcohol in moderation, if at all.</li>
+          <li><strong>Don't smoke:</strong> Avoid smoking and secondhand smoke exposure to reduce your risk of heart disease.</li>
+          <li><strong>Get regular check-ups:</strong> Schedule annual check-ups to monitor your health and address any potential concerns early.</li>
+        </ul>
+      </div>
+    )}
+  </div>
+)}
+
+{/* Display Error */}
+{error && <div className="error">Error: {error}</div>}
+
+</div>
+
   );
 }
 
-export default ResultsPage;
+export default Heart;

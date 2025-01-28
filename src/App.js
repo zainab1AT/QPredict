@@ -2,10 +2,10 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Home from "./Pages/Home";
-import Legal from "./Pages/Legal";
 import NotFound from "./Pages/NotFound";
-import Appointment from "./Pages/Appointment";
+import Symp from "./Pages/Symp";
 import ResultsPage from "./Components/ResultsDiabetes";
+import Stat  from "./Pages/Stat";
 
 function App() {
   return (
@@ -14,8 +14,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/results" element={<ResultsPage />} />
-          <Route path="/legal" element={<Legal />} />
-          <Route path="/appointment" element={<Appointment />} />
+          <Route path="/Symp" element={<Symp />} />
+          <Route path="/Charts" element={<Stat />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>

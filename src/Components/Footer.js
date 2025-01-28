@@ -10,27 +10,8 @@ function Footer() {
           <span className="navbar-sign">Q</span>Predict
           </p>
           <p className="ft-description">
-            Your trusted platform for online medical consultations and advice, 
-            connecting you with expert doctors at your convenience.
+            Your trusted platform for online medical consultations and advice.
           </p>
-        </div>
-
-        <div className="ft-list">
-          <p className="ft-list-title">Quick Links</p>
-          <ul className="ft-list-items">
-            <li>
-              <a href="#services">Consult a Doctor</a>
-            </li>
-            <li>
-              <a href="#services">Health Tips</a>
-            </li>
-            <li>
-              <a href="#about">About Us</a>
-            </li>
-            <li>
-              <a href="#contact">Contact</a>
-            </li>
-          </ul>
         </div>
 
         <div className="ft-list" id="contact">
@@ -47,7 +28,7 @@ function Footer() {
       </div>
 
       <div className="ft-copyright">
-        <p>© 2023 Health+. All rights reserved.</p>
+        <p>© 2024 QPredict. All rights reserved.</p>
       </div>
     </div>
   );

@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../Styles/SymptomForm.css";
 import { ToastContainer, toast } from "react-toastify";
+import Stroke  from "./ResultsStroke";
+import Heart from "./ResultsHeart";
+import Diabetes from "./ResultsDiabetes";
 
 function SymptomForm() {
   useEffect(() => {
@@ -13,6 +16,7 @@ function SymptomForm() {
   const [symptoms, setSymptoms] = useState("");
   const [region, setRegion] = useState("default");
   const [formErrors, setFormErrors] = useState({});
+  const [prediction, setPrediction] = useState(null); // State to store predicted condition
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -32,17 +36,42 @@ function SymptomForm() {
     }
 
     setFormErrors({});
-    toast.success("Symptoms submitted successfully!", {
-      position: "top-center",
-    });
+    toast.info("Analyzing symptoms...", { position: "top-center" });
 
-    navigate("/results", { state: { symptoms, region } });
+    // Simple rule-based logic for prediction
+    let predictedCondition = null;
+    if (symptoms.includes("chest pain") || symptoms.includes("shortness of breath")) {
+      predictedCondition = "heartDisease";
+    } else if (symptoms.includes("numbness") || symptoms.includes("speech difficulty")) {
+      predictedCondition = "stroke";
+    } else if (symptoms.includes("excessive thirst") || symptoms.includes("frequent urination")) {
+      predictedCondition = "diabetes";
+    } else {
+      toast.warning("Unable to classify symptoms. Please consult a doctor.", {
+        position: "top-center",
+      });
+      return;
+    }
+
+    setPrediction(predictedCondition);
+    toast.success("Analysis complete!", { position: "top-center" });
+  };
+
+  const renderResults = () => {
+    switch (prediction) {
+      case "heartDisease":
+        return <Heart region={region} symptoms={symptoms} />;
+      case "stroke":
+        return <Stroke region={region} symptoms={symptoms} />;
+      case "diabetes":
+        return <Diabetes region={region} symptoms={symptoms} />;
+      default:
+        return null;
+    }
   };
 
   return (
     <div className="symptom-form-section">
-      <h1 className="site-title">MedQPredict</h1>
-
       <div className="form-container">
         <h2 className="form-title">
           <span>Enter Symptoms for Analysis</span>
@@ -70,11 +99,12 @@ function SymptomForm() {
               required
             >
               <option value="default">Select your region</option>
-              <option value="north">North</option>
-              <option value="south">South</option>
-              <option value="central">Central</option>
-              <option value="east">East</option>
-              <option value="west">West</option>
+              <option value="Gaza">Gaza</option>
+              <option value="Hebron">Hebron</option>
+              <option value="Bethlehem">Bethlehem</option>
+              <option value="Ramallah">Ramallah</option>
+              <option value="Qalqilya">Qalqilya</option>
+              <option value="Jenin">Jenin</option>
             </select>
             {formErrors.region && <p className="error-message">{formErrors.region}</p>}
           </label>
@@ -87,9 +117,7 @@ function SymptomForm() {
         </form>
       </div>
 
-      <div className="footer">
-        <p>© 2025 MedQPredict. All rights reserved.</p>
-      </div>
+      {renderResults()}
 
       <ToastContainer autoClose={5000} limit={1} closeButton={false} />
     </div>

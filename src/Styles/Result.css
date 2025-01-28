@@ -1,0 +1,181 @@
+/* General Container Styling */
+.results-section {
+    font-family: Arial, sans-serif;
+    max-width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.results-section h1 {
+    text-align: center;
+    color: #4caf50;
+    margin-bottom: 20px;
+}
+
+.results-section p {
+    margin: 10px 0;
+    line-height: 1.6;
+    color: #555;
+}
+
+.results-section strong {
+    color: #333;
+}
+
+/* Form Styling */
+form {
+    margin-top: 20px;
+}
+
+form div {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+
+
+form input,
+form select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+form input:focus,
+form select:focus {
+    border-color: #4caf50;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+}
+
+form input[type="radio"] {
+    width: auto;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+form div label {
+    margin-right: 10px;
+}
+
+/* Aligning questions to the left */
+form div.question {
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+/* Submit Button */
+button.form-submit-btn {
+    background-color: #4caf50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+
+button.form-submit-btn:hover {
+    background-color: #45a049;
+}
+
+/* Result Display */
+.result {
+    margin-top: 30px;
+    padding: 20px;
+    border: 1px solid #4caf50;
+    border-radius: 5px;
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    font-family: Arial, sans-serif;
+    text-align: left;
+}
+.high-risk {
+    color: #d32f2f; /* Red for high risk */
+    font-weight: bold;
+  }
+  
+  /* Low risk prediction */
+  .low-risk {
+    color: #1976d2; /* Blue for low risk */
+    font-weight: bold;
+  }
+.result h3 {
+    margin-bottom: 15px;
+    color: #4caf50;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.result p {
+    margin: 10px 0;
+    line-height: 1.6;
+    font-size: 1rem;
+    color: #333;
+}
+
+.result h4 {
+    margin-top: 20px;
+    color: #388e3c;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.result ul {
+    margin-top: 10px;
+    padding-left: 20px;
+}
+
+.result li {
+    margin-bottom: 10px;
+    font-size: 1rem;
+    color: #333;
+    text-align: left;
+    list-style-type: none;
+}
+
+.result li strong {
+    color: #4caf50;
+}
+
+.result ul li::before {
+    content: "✔️"; /* Checkmark for each step */
+    margin-right: 8px;
+    color: #4caf50;
+}
+
+/* For the error section (optional, in case you want styling for errors too) */
+.error {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #f44336;
+    border-radius: 5px;
+    background-color: #ffebee;
+    color: #d32f2f;
+    font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .results-section {
+        padding: 15px;
+    }
+
+    button.form-submit-btn {
+        font-size: 14px;
+    } 
+} 

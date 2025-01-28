@@ -51,6 +51,18 @@ function Navbar() {
             Doctors
           </a>
         </li>
+        <li>
+            <Link to="/Symp" className="navbar-links">
+            Symptoms Analysis
+          </Link>
+            
+          </li>
+
+          <li>
+          <Link to="/Charts" className="navbar-links">
+            Charts Analysis
+          </Link>
+          </li>
       </ul>
 
       {/* Mobile */}
@@ -89,6 +101,18 @@ function Navbar() {
             <a onClick={openNav} href="#contact">
               Contact
             </a>
+            
+          </li>
+          <li>
+          <Link to="/Symp" className="navbar-links">
+            Symptoms Analysis
+          </Link>
+          </li>
+
+          <li>
+          <Link to="/Charts" className="navbar-links">
+            Charts Analysis
+          </Link>
           </li>
         </ul>
       </div>
